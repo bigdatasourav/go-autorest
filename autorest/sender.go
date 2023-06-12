@@ -446,6 +446,17 @@ func DelayForBackoff(backoff time.Duration, attempt int, cancel <-chan struct{})
 func DelayForBackoffWithCap(backoff, cap time.Duration, attempt int, cancel <-chan struct{}) bool {
 	log.Println("attempt:", attempt)
 	log.Println("cap:", cap)
+	log.Println("backoff:", backoff)
+	// The calculatted jitter will be between [0.8, 1.2)
+	// var jitter = float64(rand.Intn(120-80)+80) / 100
+
+	// retryTime := time.Duration(int(float64(int(minDelay.Nanoseconds())*int(math.Pow(3, float64(attempt)))) * jitter))
+
+	// // Cap retry time at 5 minutes to avoid too long a wait
+	// if retryTime > time.Duration(5*time.Minute) {
+	// 	retryTime = time.Duration(5 * time.Minute)
+	// }
+
 	d := time.Duration(backoff.Seconds()*math.Pow(2, float64(attempt))) * time.Second
 	if cap > 0 && d > cap {
 		d = cap
