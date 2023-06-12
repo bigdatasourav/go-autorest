@@ -444,10 +444,12 @@ func DelayForBackoff(backoff time.Duration, attempt int, cancel <-chan struct{})
 // Note: Passing attempt 1 will result in doubling "backoff" duration. Treat this as a zero-based attempt
 // count.
 func DelayForBackoffWithCap(backoff, cap time.Duration, attempt int, cancel <-chan struct{}) bool {
+	log.Println("attempt:", attempt)
 	d := time.Duration(backoff.Seconds()*math.Pow(2, float64(attempt))) * time.Second
 	if cap > 0 && d > cap {
 		d = cap
 	}
+	log.Println("delay:", d)
 	logger.Instance.Writef(logger.LogInfo, "DelayForBackoffWithCap: sleeping for %s\n", d)
 	select {
 	case <-time.After(d):

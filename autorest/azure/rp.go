@@ -37,7 +37,6 @@ func DoRetryWithRegistration(client autorest.Client) autorest.SendDecorator {
 				if err != nil {
 					return resp, err
 				}
-				log.Println("inside")
 				resp, err = autorest.SendWithSender(s, rr.Request(),
 					autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...),
 				)
