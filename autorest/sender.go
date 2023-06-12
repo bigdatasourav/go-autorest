@@ -445,6 +445,7 @@ func DelayForBackoff(backoff time.Duration, attempt int, cancel <-chan struct{})
 // count.
 func DelayForBackoffWithCap(backoff, cap time.Duration, attempt int, cancel <-chan struct{}) bool {
 	log.Println("attempt:", attempt)
+	log.Println("cap:", cap)
 	d := time.Duration(backoff.Seconds()*math.Pow(2, float64(attempt))) * time.Second
 	if cap > 0 && d > cap {
 		d = cap
